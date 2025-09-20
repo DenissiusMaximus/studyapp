@@ -1,22 +1,26 @@
-import {Word} from "../store/Types";
-import {useDispatch, useSelector} from "react-redux";
-import {addWord} from "../store/actions";
-import React from "react";
+import {Word} from "../../Store/types";
+import React, {useEffect} from "react";
 import {WordMiniCard} from "./WordMiniCard";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {useDispatch} from "react-redux";
 
-export function CardsMenu() {
-    const dispatch = useDispatch();
-    const words = useSelector((state: any) => state.words);
-
+export function CardsMenu({wordsList: originalWordsList}: any) {
     const handleAddWord = () => {
         const newWord: Word = {
-            word: 'New Word',
+            name: 'New Word',
             definition: 'Definition of new word',
         };
-        dispatch(addWord(newWord));
+
+        setDraftCollections([...draftCollections, newWord]);
+        console.log(draftCollections);
     }
+
+    const [draftCollections, setDraftCollections] = React.useState<any>([]);
+
+    useEffect(() => {
+        setDraftCollections([...originalWordsList]);
+    }, [originalWordsList]);
 
     return (
         <>
@@ -35,7 +39,7 @@ export function CardsMenu() {
                     className="flex-1 overflow-y-auto px-3 pb-4 space-y-2"
                     style={{ WebkitOverflowScrolling: 'touch' }}
                 >
-                    {words.map((word: Word) => (
+                    {draftCollections.map((word: Word) => (
                         <WordMiniCard key={word.id} cardWord={word} />
                     ))}
                 </div>

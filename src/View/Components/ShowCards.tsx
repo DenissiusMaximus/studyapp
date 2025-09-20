@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {Word} from "../store/Types";
+import {Word} from "../../Store/types";
 import React from "react";
 import {FlipCard} from "./FlipCard";
 
@@ -13,34 +13,33 @@ const ANIMATION_CLASSES = {
     enteringLeft: "opacity-0 -translate-x-80 -translate-y-20 transition-none",
 };
 
-export function ShowCards() {
-    const words = useSelector((state: { words: Word[] }) => state.words);
-    const [currentCard, setCurrentCard] = React.useState<Word | undefined>(words[0]);
+export function ShowCards({wordsList} :any) {
+    const [currentCard, setCurrentCard] = React.useState<Word | undefined>(wordsList[0]);
 
     const [animation, setAnimation] = React.useState<'idle' | 'leavingLeft' | 'enteringLeft' | 'leavingRight' | 'enteringRight'>('idle');
 
-    let frontText = currentCard?.word ?? "";
+    let frontText = currentCard?.name ?? "";
     let backText = currentCard?.definition ?? "";
 
     React.useEffect(
         () => {
-            if (words.length > 0) {
-                setCurrentCard(words[words.length - 1]);
+            if (wordsList.length > 0) {
+                setCurrentCard(wordsList[wordsList.length - 1]);
             }
         },
-        [words]
+        [wordsList]
     )
 
     const handleNextCard = () => {
-        if (words.length <= 1)
+        if (wordsList.length <= 1)
             return;
 
         setAnimation('leavingLeft');
         setTimeout(() => {
 
-            const currentIndex = words.indexOf(currentCard!);
-            const nextIndex = (currentIndex + 1) % words.length;
-            setCurrentCard(words[nextIndex]);
+            const currentIndex = wordsList.indexOf(currentCard!);
+            const nextIndex = (currentIndex + 1) % wordsList.length;
+            setCurrentCard(wordsList[nextIndex]);
 
             setAnimation('enteringLeft');
             setTimeout(() => setAnimation('idle'), 15);
@@ -48,15 +47,15 @@ export function ShowCards() {
     }
 
     const handlePreviousCard = () => {
-        if (words.length <= 1)
+        if (wordsList.length <= 1)
             return;
 
         setAnimation('leavingRight');
         setTimeout(() => {
 
-            const currentIndex = words.indexOf(currentCard!);
-            const previousIndex = (currentIndex - 1 + words.length) % words.length;
-            setCurrentCard(words[previousIndex]);
+            const currentIndex = wordsList.indexOf(currentCard!);
+            const previousIndex = (currentIndex - 1 + wordsList.length) % wordsList.length;
+            setCurrentCard(wordsList[previousIndex]);
 
             setAnimation('enteringRight');
             setTimeout(() => setAnimation('idle'), 15);
@@ -69,9 +68,9 @@ export function ShowCards() {
             className="flex flex-1 flex-col items-center justify-center min-h-screen  order-1 md:order-2">
             <div className={`w-full flex flex-1 flex-col items-center justify-center`}>
                 <h1 className="text-3xl font-bold ">
-                    {currentCard ? (words.indexOf(currentCard)+ 1 + words.length) % words.length + 1 : "No words available"}
+                    {currentCard ? (wordsList.indexOf(currentCard)+ 1 + wordsList.length) % wordsList.length + 1 : "No wordsList available"}
                     /
-                    {words.length}
+                    {wordsList.length}
                 </h1>
                 <div className={`${ANIMATION_CLASSES[animation]} flex h-5/6 w-full items-center justify-center`}>
                     <FlipCard frontText={frontText} backText={backText}></FlipCard>

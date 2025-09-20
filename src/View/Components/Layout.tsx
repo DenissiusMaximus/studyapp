@@ -1,22 +1,8 @@
-import {useLocation, useNavigate} from "react-router";
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {Word} from "../store/Types";
-import {toggleLayout} from "../store/actions";
-import {CardsMenu} from "./CardsMenu";
-import {faBars, faCog, faCreditCard, faDiamond, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faCog, faColumns, faDiamond} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export function Layout({children}: any) {
-    //TODO rework bo poganij design and add for phones
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const isLayoutOpen = useSelector((state: { words: Word[], isLayoutOpen: boolean }) => state.isLayoutOpen);
-
-    const handleToggleLayout = () => {
-        dispatch(toggleLayout());
-    }
-
     return (
         <>
             <CircleMenu>
@@ -45,8 +31,8 @@ function CircleMenu({children}: any) {
                 </button>
 
                 <menu className="items-wrapper">
-                    <a href="/cards" className="menu-item" aria-label="Home">
-                        <FontAwesomeIcon icon={faHome}/>
+                    <a href="/collections" className="menu-item" aria-label="Home">
+                        <FontAwesomeIcon icon={faColumns}/>
                     </a>
                     <a href="/cards" className="menu-item" aria-label="Stats">
                         <FontAwesomeIcon icon={faDiamond}/>

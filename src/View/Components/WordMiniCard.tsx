@@ -1,14 +1,13 @@
 import React from "react";
 import {useDispatch} from "react-redux";
-import {Word} from "../store/Types";
-import {removeWord, updateWord} from "../store/actions";
+import {Word} from "../../Store/types";
 
 export type WordMiniCardProps = {
     cardWord: Word;
 }
 
 export function WordMiniCard({cardWord}: WordMiniCardProps) {
-    const [word, setWord] = React.useState(cardWord.word);
+    const [word, setWord] = React.useState(cardWord.name);
     const [definition, setDefinition] = React.useState(cardWord.definition);
     const dispatch = useDispatch();
 
@@ -24,24 +23,24 @@ export function WordMiniCard({cardWord}: WordMiniCardProps) {
     }, []);
 
     const handleApply = () => {
-        if (word !== cardWord.word || definition !== cardWord.definition) {
+        if (word !== cardWord.name || definition !== cardWord.definition) {
             if (word.trim() === '') {
                 //TODO little error message in the bottom
                 return;
             }
             const updatedWord: Word = {
                 ...cardWord,
-                word: word,
+                name: word,
                 definition: definition
             };
 
-            dispatch(updateWord(updatedWord));
+            // dispatch(updateWordFromCollection(updatedWord));
         }
     }
 
     const handleRemove = () => {
         if (cardWord.id != null) {
-            dispatch(removeWord(cardWord.id));
+            // dispatch(removeWordToCollection(cardWord.id));
         }
     }
 

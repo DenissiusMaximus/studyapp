@@ -1,6 +1,5 @@
 import {useDispatch} from "react-redux";
-import {Word} from "../store/Types";
-import {addWord} from "../store/actions";
+import {Word} from "../../Store/types";
 import React from "react";
 
 export function AddFirstWord() {
@@ -8,10 +7,10 @@ export function AddFirstWord() {
 
     const handleAddWord = () => {
         const newWord: Word = {
-            word: 'New Word',
+            name: 'New Word',
             definition: 'Definition of new word',
         };
-        dispatch(addWord(newWord));
+        // dispatch(addWordToCollection(newWord));
     }
 
     return (
